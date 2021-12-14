@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { View, SafeAreaView, Text, TextInput, FlatList, Image, ActivityIndicator, StyleSheet, StatusBar } from "react-native";
+import { View, Text, TextInput, FlatList, Image, ActivityIndicator, StyleSheet, StatusBar } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-import { getPokemons } from "../redux/Actions/Pokemon";
-import api from "../services/api";
 import PokemonCard from "../components/PokemonCard";
 import { useSelector } from "react-redux";
+import { getPokemons } from "../redux/Actions/Pokemon";
 
 const Home = () => {
   const dispatch = useDispatch();
   const pokemons = useSelector(state => state.pokemons.pokemons);
   const offset = useSelector(state => state.pokemons.offset);
 
-  useEffect(() => {
+  const handleReachEnd = () => {
     dispatch(getPokemons(offset));
-  }, []);
+  }
 
   return (
       <View style={styles.container}>
@@ -38,6 +37,13 @@ const Home = () => {
             data={pokemons}
             keyExtractor={item => item.id}
             renderItem={({item}) => <PokemonCard data={item} />}
+            onEndReachedThreshold={0}
+            onEndReached={handleReachEnd}
+            ListFooterComponent={() => (
+              <View style={{alignItems: "center", justifyContent: "center"}}>
+                <ActivityIndicator size="small" color="#FC7E7E"/>
+              </View>
+            )}
           />
         </View>
       </View>
@@ -49,6 +55,7 @@ const styles = StyleSheet.create({
     flex: 1, 
     marginTop: StatusBar.currentHeight || 0,
     paddingHorizontal: 14,
+    backgroundColor: "white",
   },
   header: {
     marginBottom: 4,

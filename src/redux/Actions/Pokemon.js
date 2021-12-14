@@ -6,24 +6,18 @@ export const getPokemons = (offset) => async (dispatch) => {
 };
 
 const getPokemonList = async offset => {
-  const pokemonList = await api.get(`/pokemon?limit=${offset}`)
-    .then(value => {
-      return value.data.results;
-    });
+  // get all the pokemon list with
+  const res = await api.get(`/pokemon/?limit=10&offset=${offset}`);
+  const pokemonList = await res.data.results;
 
-  let pokemons = [];
-
-  await Promise.all(pokemonList.map(pokemon => getPokemonDetail(pokemon.name)))
-    .then(value => {
-      pokemons = value;
-    });
+  let pokemons = await Promise.all(pokemonList.map(pokemon => getPokemonDetail(pokemon.name)));
 
   return pokemons;
 };
 
 const getPokemonDetail = async name => {
-  const pokemonDetail = await api.get(`/pokemon/${name}`)
-    .then(res => res.data);
+  const res = await api.get(`/pokemon/${name}`);
+  const pokemonDetail = await res.data;
   
   return pokemonDetail;
 };
