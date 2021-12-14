@@ -1,39 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { View, SafeAreaView, Text, TextInput, FlatList, Image, ActivityIndicator, StyleSheet, StatusBar } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import { getPokemons } from "../redux/Actions/Pokemon";
 import api from "../services/api";
 import PokemonCard from "../components/PokemonCard";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const pokemons = useSelector(state => state.pokemons.pokemons);
+  const offset = useSelector(state => state.pokemons.offset);
 
   useEffect(() => {
-
-    const fetchData = async () => {
-      try {
-        const res = await api.get("/pokemon?limit=50");
-        const pokemons = res.data.results;
-
-        pokemons.map(async pokemon => {
-          try {
-            const res = await api.get(`/pokemon/${pokemon.name}`);
-            const pokemonDetail = res.data;
-            setData(prevPokemon => [...prevPokemon, pokemonDetail]);
-          } catch(err) {
-            console.error(err);
-          }
-        });
-        
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    fetchData().then(() => {
-      data.sort((a, b) => a.id - b.id);
-      setLoading(false);
-    });
+    dispatch(getPokemons(offset));
   }, []);
 
   return (
@@ -53,11 +33,10 @@ const Home = () => {
           </View>
         </View>
         <View style={{flex: 1}}>
-        {loading && <ActivityIndicator size="large" color="blue" />}
+        {/* {loading && <ActivityIndicator size="large" color="blue" />} */}
           <FlatList 
-            data={data}
+            data={pokemons}
             keyExtractor={item => item.id}
-            // contentContainerStyle={{paddingBottom: 150,}}
             renderItem={({item}) => <PokemonCard data={item} />}
           />
         </View>
