@@ -3,7 +3,7 @@ const initialState = {
   offset: 0,
 };
 
-const pokemonsReducer = (state = initialState, {type, payload}) => {
+const pokemonsReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case "GET_POKEMONS":
       const allPokemons = state.pokemons.concat(payload);

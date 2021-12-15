@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 
-const PokemonCard = props => {
-  const { id, name, types } = props.data;
+const PokemonCard = (props) => {
+  const { id, name, types, pokemonSprite } = props.data;
 
   return (
     <>
@@ -10,22 +10,24 @@ const PokemonCard = props => {
         <View style={styles.cardContainer}>
           <View style={styles.leftContainer}>
             <Text style={styles.pokemonName}>{name}</Text>
-            {types.map(a => {
+            {types.map((a) => {
               return (
                 <View key={a.slot} style={styles.pokemonTypeContainer}>
                   <Text style={styles.pokemonType}>{a.type.name}</Text>
                 </View>
-              )
+              );
             })}
           </View>
           <View style={styles.rightContainer}>
-            <Text style={styles.pokemonId}>#00{id}</Text>
-            <Image 
+            <Text style={styles.pokemonId}>
+              #{id > 100 ? id : `00${id}`.slice(-3)}
+            </Text>
+            <Image
               source={{
-                uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
+                uri: pokemonSprite,
               }}
-              style={{width: 140, height: 140}}
-            />  
+              style={{ width: 140, height: 140 }}
+            />
           </View>
         </View>
       </TouchableOpacity>
@@ -34,45 +36,45 @@ const PokemonCard = props => {
 };
 
 const styles = StyleSheet.create({
-  cardContainer: { 
+  cardContainer: {
     flex: 1,
-    backgroundColor: "#56D3B6", 
+    backgroundColor: "#56D3B6",
     paddingVertical: 10,
     paddingHorizontal: 15,
-    marginVertical: 8, 
-    borderRadius: 5, 
-    flexDirection: "row", 
-    justifyContent: "space-around", 
-    alignItems: "center"
+    marginVertical: 8,
+    borderRadius: 5,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
   },
   leftContainer: {
     flex: 1,
   },
   pokemonName: {
-    color: "white", 
-    fontSize: 30, 
-    fontWeight: "700"
+    color: "white",
+    fontSize: 30,
+    fontWeight: "700",
   },
   pokemonTypeContainer: {
-    marginVertical: 4, 
-    alignItems: "flex-start"
+    marginVertical: 4,
+    alignItems: "flex-start",
   },
   pokemonType: {
-    color: "white", 
-    backgroundColor: "#d5e4e961", 
-    borderRadius: 15, 
-    alignItems: "center", 
-    paddingHorizontal: 15, 
-    paddingVertical: 5
+    color: "white",
+    backgroundColor: "#d5e4e961",
+    borderRadius: 15,
+    alignItems: "center",
+    paddingHorizontal: 15,
+    paddingVertical: 5,
   },
   rightContainer: {
     flex: 1,
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
   },
   pokemonId: {
-    color: "white", 
-    fontSize: 20, 
-    fontWeight: "700"
+    color: "white",
+    fontSize: 20,
+    fontWeight: "700",
   },
 });
 
