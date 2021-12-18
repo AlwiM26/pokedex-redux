@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 
-const { width, height } = Dimensions.get("screen");
+const { width } = Dimensions.get("screen");
 
 const AboutSection = ({ pokemonData }) => {
   const {
@@ -25,54 +25,65 @@ const AboutSection = ({ pokemonData }) => {
         <Text style={styles.characteristicTitle}>Characteristic</Text>
         <View style={styles.characteristicContainer}>
           <View style={styles.itemContainer}>
-            <Text style={{ flex: 1 }}>Habitat</Text>
-            <Text style={{ flex: 2 }}>{habitat}</Text>
+            <Text style={{ flex: 1, color: "#BBB" }}>Habitat</Text>
+            <Text style={{ flex: 2, fontWeight: "500" }}>{habitat}</Text>
           </View>
 
           <View style={styles.itemContainer}>
-            <Text style={{ flex: 1 }}>Height</Text>
-            <Text style={{ flex: 2 }}>
+            <Text style={{ flex: 1, color: "#BBB" }}>Height</Text>
+            <Text style={{ flex: 2, fontWeight: "500" }}>
               {height / 10} m ({(height / 3.048).toFixed(2)} ft)
             </Text>
           </View>
 
-          <View style={styles.item}>
-            <Text style={{ flex: 1 }}>Weight</Text>
-            <Text style={{ flex: 2 }}>
+          <View style={styles.itemContainer}>
+            <Text style={{ flex: 1, color: "#BBB" }}>Weight</Text>
+            <Text style={{ flex: 2, fontWeight: "500" }}>
               {weight / 10} kg ({(weight / 4.536).toFixed(2)} lbs)
             </Text>
           </View>
 
           <View style={styles.itemContainer}>
-            <Text style={{ flex: 1 }}>Abilities</Text>
+            <Text style={{ flex: 1, color: "#BBB" }}>Abilities</Text>
             <View style={{ flexDirection: "row", flex: 2 }}>
               {abilities.map((item, id) => {
                 if (id === abilities.length - 1) {
-                  return <Text key={id}>{item.ability.name}</Text>;
+                  return (
+                    <Text key={id} style={{ fontWeight: "500" }}>
+                      {item.ability.name}
+                    </Text>
+                  );
                 } else {
-                  return <Text key={id}>{item.ability.name}, </Text>;
+                  return (
+                    <Text key={id} style={{ fontWeight: "500" }}>
+                      {item.ability.name},{" "}
+                    </Text>
+                  );
                 }
               })}
             </View>
           </View>
 
           <View style={styles.itemContainer}>
-            <Text style={{ flex: 1 }}>Gender rate</Text>
+            <Text style={{ flex: 1, color: "#BBB" }}>Gender rate</Text>
             <View style={{ flex: 2 }}>
               {genderRate === -1 ? (
                 <View style={{ flexDirection: "row" }}>
                   <FontAwesome name="genderless" size={16} color="#111" />
-                  <Text>Genderless</Text>
+                  <Text style={{ fontWeight: "500" }}> Genderless</Text>
                 </View>
               ) : (
                 <View style={{ flexDirection: "row" }}>
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Ionicons name="male" size={20} color="#59BCFF" />
-                    <Text>{100 - genderRate} %</Text>
+                    <Text style={{ fontWeight: "500" }}>
+                      {" "}
+                      {100 - genderRate} %
+                    </Text>
                   </View>
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Ionicons name="female" size={20} color="#FF80F0" />
-                    <Text>{genderRate} %</Text>
+                    <Text style={{ fontWeight: "500" }}> {genderRate} %</Text>
                   </View>
                 </View>
               )}
@@ -80,20 +91,28 @@ const AboutSection = ({ pokemonData }) => {
           </View>
 
           <View style={styles.itemContainer}>
-            <Text style={{ flex: 1 }}>Egg groups</Text>
+            <Text style={{ flex: 1, color: "#BBB" }}>Egg groups</Text>
             <View style={{ flexDirection: "row", flex: 2 }}>
               {eggGroups.map((item, id) => {
                 if (id === eggGroups.length - 1) {
-                  return <Text key={id}>{item.name}</Text>;
+                  return (
+                    <Text key={id} style={{ fontWeight: "500" }}>
+                      {item.name}
+                    </Text>
+                  );
                 } else {
-                  return <Text key={id}>{item.name}, </Text>;
+                  return (
+                    <Text key={id} style={{ fontWeight: "500" }}>
+                      {item.name},{" "}
+                    </Text>
+                  );
                 }
               })}
             </View>
           </View>
 
           <View style={styles.itemContainer}>
-            <Text style={{ flex: 1 }}>Capture rate</Text>
+            <Text style={{ flex: 1, color: "#BBB" }}>Capture rate</Text>
             <View style={{ flex: 2 }}>
               <View
                 style={{
@@ -101,11 +120,11 @@ const AboutSection = ({ pokemonData }) => {
                   alignItems: "center",
                 }}
               >
-                <Text>0</Text>
+                <Text style={{ fontWeight: "500" }}>0</Text>
                 <View
                   style={{
                     height: 7,
-                    backgroundColor: "#d1d3d7",
+                    backgroundColor: "#EEE",
                     width: 150,
                     borderRadius: 10,
                     marginHorizontal: 6,
@@ -120,7 +139,7 @@ const AboutSection = ({ pokemonData }) => {
                     }}
                   />
                 </View>
-                <Text>255</Text>
+                <Text style={{ fontWeight: "500" }}>255</Text>
               </View>
             </View>
           </View>
@@ -149,7 +168,7 @@ const styles = StyleSheet.create({
   textEntries: {
     fontSize: 15,
     textAlign: "justify",
-    marginBottom: 8,
+    marginBottom: 20,
   },
   characteristicTitle: {
     fontSize: 18,

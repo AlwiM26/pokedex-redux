@@ -58,8 +58,8 @@ const Detail = () => {
             contentContainerStyle={{ justifyContent: "space-evenly" }}
           >
             <AboutSection pokemonData={data} />
-            <StatSection />
-            <EvolutionSection />
+            <StatSection stats={data.stats} />
+            <EvolutionSection evolutionChain={data.evolutionChain} />
           </ScrollView>
         </View>
       </View>
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 25,
+    fontWeight: "500",
   },
   contentContainer: {
     flex: 1,
