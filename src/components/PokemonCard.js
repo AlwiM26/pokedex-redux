@@ -1,13 +1,22 @@
-import React from "react";
+import React, { memo } from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import getColor from "../assets/Style/Colors";
 
 const PokemonCard = (props) => {
-  const { id, name, types, pokemonSprite } = props.data;
+  const navigator = useNavigation();
+  const { id, name, types, pokemonSprite, color } = props.data;
+
+  const handleClick = () => {
+    navigator.navigate("PokemonDetail", { pokemonData: props.data });
+  };
 
   return (
     <>
-      <TouchableOpacity onPress={() => alert(id)}>
-        <View style={styles.cardContainer}>
+      <TouchableOpacity onPress={() => handleClick()}>
+        <View
+          style={{ ...styles.cardContainer, backgroundColor: getColor(color) }}
+        >
           <View style={styles.leftContainer}>
             <Text style={styles.pokemonName}>{name}</Text>
             {types.map((a) => {
@@ -61,7 +70,7 @@ const styles = StyleSheet.create({
   },
   pokemonType: {
     color: "white",
-    backgroundColor: "#d5e4e961",
+    backgroundColor: "#d5e4e985",
     borderRadius: 15,
     alignItems: "center",
     paddingHorizontal: 15,
@@ -78,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PokemonCard;
+export default memo(PokemonCard);

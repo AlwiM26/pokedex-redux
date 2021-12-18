@@ -36,7 +36,6 @@ const Home = () => {
           </View>
         </View>
         <View style={{ flex: 1 }}>
-          {/* {loading && <ActivityIndicator size="large" color="blue" />} */}
           <FlatList
             data={pokemons}
             keyExtractor={(item) => item.id}

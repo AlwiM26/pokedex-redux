@@ -44,7 +44,12 @@ const getPokemonDetail = async (name) => {
     habitat: pokemonSpecies.habitat,
     eggGroups: pokemonSpecies.eggGroups,
     captureRate: pokemonSpecies.captureRate,
-    genderRate: pokemonSpecies.genderRate,
+    genderRate:
+      pokemonSpecies.genderRate === 1
+        ? 50
+        : pokemonSpecies.genderRate === -1
+        ? -1
+        : (pokemonSpecies.genderRate / 8) * 100,
     evolutionChain: evolutionChain,
   };
 
@@ -55,7 +60,14 @@ const getPokemonSpecies = async (speciesId) => {
   const res = await api.get(`/pokemon-species/${speciesId}`);
   const pokemonSpecies = await res.data;
 
-  const textEntries = pokemonSpecies.flavor_text_entries[0].flavor_text;
+  const textEntries = pokemonSpecies.flavor_text_entries
+    .filter((item) => item.language.name === "en")[0]
+    .flavor_text.replace(
+      /(^|[.!?]\s+)([a-z])/g,
+      (_, x, y) => x + y.toUpperCase()
+    )
+    .replace("\u000c", " ")
+    .replace(/\r?\n|\r/g, " ");
   const evolutionChainId = parseInt(
     pokemonSpecies.evolution_chain.url.split("/").reverse()[1]
   );

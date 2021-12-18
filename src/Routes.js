@@ -14,7 +14,7 @@ Stack.Navigator.defaultProps = {
   screenOptions: {
     headerShown: false,
   },
-  mode: "card",
+  headerMode: "modal",
 };
 
 const Tab = createBottomTabNavigator();
