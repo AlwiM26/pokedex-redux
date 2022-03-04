@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   FlatList,
-  Image,
   ActivityIndicator,
   StyleSheet,
   StatusBar,
@@ -12,14 +11,15 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-import PokemonCard from "../components/PokemonCard";
 import { useSelector } from "react-redux";
+import PokemonCard from "../components/PokemonCard";
 import { getPokemons } from "../redux/Actions/Pokemon";
 
 const Home = () => {
   const dispatch = useDispatch();
   const pokemons = useSelector((state) => state.pokemons.pokemons);
   const offset = useSelector((state) => state.pokemons.offset);
+  const [searchValue, setSearchValue] = useState('');
 
   const handleReachEnd = () => {
     dispatch(getPokemons(offset));
@@ -32,7 +32,12 @@ const Home = () => {
           <Text style={styles.title}>Pokédex</Text>
           <View style={styles.searchContainer}>
             <Ionicons name="ios-search" size={24} color="#5d5e7d" />
-            <TextInput style={styles.txtInput} placeholder="Pokémon name" />
+            <TextInput 
+              style={styles.txtInput}
+              placeholder="Pokémon name"
+              onChangeText={(val) => setSearchValue(val)}
+              value={searchValue}
+            />
           </View>
         </View>
         <View style={{ flex: 1 }}>
@@ -44,7 +49,7 @@ const Home = () => {
             onEndReached={handleReachEnd}
             ListFooterComponent={() => (
               <View style={{ alignItems: "center", justifyContent: "center" }}>
-                <ActivityIndicator size="small" color="#FC7E7E" />
+                <ActivityIndicator size="large" color="#FC7E7E" />
               </View>
             )}
           />
@@ -80,6 +85,7 @@ const styles = StyleSheet.create({
   txtInput: {
     fontSize: 17,
     marginLeft: 10,
+    flex: 1,
   },
 });
 

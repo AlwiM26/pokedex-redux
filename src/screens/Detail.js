@@ -6,6 +6,7 @@ import {
   ScrollView,
   Text,
   Image,
+  ImageBackground,
   TouchableOpacity,
   StyleSheet,
   StatusBar,
@@ -15,6 +16,8 @@ import { AntDesign } from "@expo/vector-icons";
 import AboutSection from "../components/AboutSection";
 import StatSection from "../components/StatSection";
 import EvolutionSection from "../components/EvolutionSection";
+import getColor from "../assets/Style/Colors";
+import bg from '../assets/poke-back.png';
 
 const Detail = () => {
   const route = useRoute();
@@ -22,7 +25,7 @@ const Detail = () => {
   const data = route.params.pokemonData;
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: getColor(data.color) }}>
       <View style={styles.container}>
         <View style={styles.headerContainer}>
           <TouchableOpacity onPress={() => navigator.goBack()}>
@@ -42,20 +45,24 @@ const Detail = () => {
               borderRadius: 10,
             }}
           >
-            <Image
-              source={{ uri: data.pokemonSprite }}
-              style={{
-                width: 250,
-                height: 250,
-              }}
-            />
+            <ImageBackground
+              source={bg}
+              style={{width: 255, height: 255}}
+            >
+              <Image
+                source={{ uri: data.pokemonSprite }}
+                style={{
+                  width: 250,
+                  height: 250,
+                }}
+              />
+            </ImageBackground>
           </View>
           <ScrollView
             horizontal={true}
             pagingEnabled
             snapToAlignment="center"
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ justifyContent: "space-evenly" }}
           >
             <AboutSection pokemonData={data} />
             <StatSection stats={data.stats} />
@@ -71,12 +78,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight,
-    paddingHorizontal: 14,
   },
   headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: 10,
+    paddingHorizontal: 14,
   },
   title: {
     fontSize: 25,

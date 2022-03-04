@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, ScrollView, Text, StyleSheet, Dimensions } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("screen");
@@ -14,12 +14,14 @@ const AboutSection = ({ pokemonData }) => {
     eggGroups,
     habitat,
     captureRate,
-    growthRate,
   } = pokemonData;
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} >
       <View style={styles.contentContainer}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+        >
         <Text style={styles.title}>About</Text>
         <Text style={styles.textEntries}>{textEntries}</Text>
         <Text style={styles.characteristicTitle}>Characteristic</Text>
@@ -131,12 +133,7 @@ const AboutSection = ({ pokemonData }) => {
                   }}
                 >
                   <View
-                    style={{
-                      height: 7,
-                      backgroundColor: "blue",
-                      width: (captureRate / 255) * 150,
-                      borderRadius: 10,
-                    }}
+                    style={styles.captureRateBar(captureRate)}
                   />
                 </View>
                 <Text style={{ fontWeight: "500" }}>255</Text>
@@ -144,6 +141,7 @@ const AboutSection = ({ pokemonData }) => {
             </View>
           </View>
         </View>
+        </ScrollView>
       </View>
     </View>
   );
@@ -152,18 +150,23 @@ const AboutSection = ({ pokemonData }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: width - 28,
+    width: width,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: 'white',
+    borderTopRightRadius: 25,
+    borderTopLeftRadius: 25,
   },
   contentContainer: {
     flex: 1,
-    width: width - 40,
+    width: width,
+    paddingHorizontal: 14,
   },
   title: {
     fontSize: 28,
     fontWeight: "700",
-    marginBottom: 1,
+    marginBottom: 8,
+    marginTop: 10,
   },
   textEntries: {
     fontSize: 15,
@@ -180,6 +183,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginVertical: 5,
   },
+  captureRateBar: captureRate => ({
+    height: 7,
+    backgroundColor: captureRate > 125 ? "#56D3B6" : "#FC7E7E",
+    width: (captureRate / 255) * 150,
+    borderRadius: 10,
+  }),
 });
 
 export default AboutSection;

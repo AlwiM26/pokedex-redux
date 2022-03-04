@@ -87,33 +87,28 @@ const getPokemonSpecies = async (speciesId) => {
 };
 
 const getPokemonEvolutionChain = async (evolutionChainId) => {
-  const res = await api.get(`/evolution-chain/${evolutionChainId}`);
-  const pokemonEvolutionChain = await res.data.chain;
+  try {
+    const res = await api.get(`/evolution-chain/${evolutionChainId}`);
+    let pokemonEvolutionChain = await res.data.chain;
+    let evolutionList = [];
 
-  let evolutionList = [];
+    while (pokemonEvolutionChain.evolves_to.length > 0) {
+      let pokemonId = pokemonEvolutionChain.species.url.split("/").reverse()[1];
+      let evolveToId =  pokemonEvolutionChain.evolves_to[0].species.url.split("/").reverse()[1];
+      let evolution = {
+        pokemonName: pokemonEvolutionChain.species.name,
+        pokemonSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png`, 
+        evolveToName: pokemonEvolutionChain.evolves_to[0].species.name,
+        evolveToSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evolveToId}.png`,
+        minLevel: pokemonEvolutionChain.evolves_to[0].evolution_details[0].min_level ? pokemonEvolutionChain.evolves_to[0].evolution_details[0].min_level : 0,
+      };
 
-  const getEvolutionTo = (evolutionChainObj) => {
-    const pokemonId = evolutionChainObj.species.url.split("/").reverse()[1];
-    const pokemonName = evolutionChainObj.species.name;
-    const pokemonSprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png`;
-    const minlevel =
-      evolutionChainObj.evolution_details.length === 0
-        ? 0
-        : evolutionChainObj.evolution_details[0].min_level;
+      pokemonEvolutionChain = pokemonEvolutionChain.evolves_to[0];
+      evolutionList = [...evolutionList, evolution];
+    }
 
-    evolutionList.push({
-      pokemonId,
-      pokemonName,
-      pokemonSprite,
-      minlevel,
-    });
-
-    evolutionChainObj.evolves_to.forEach((item) => {
-      getEvolutionTo(item);
-    });
-  };
-
-  getEvolutionTo(pokemonEvolutionChain);
-
-  return evolutionList;
+    return evolutionList;
+  } catch (err) {
+    console.error(err);
+  }
 };

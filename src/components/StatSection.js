@@ -43,17 +43,22 @@ const StatSection = ({ stats }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: width - 28,
+    width: width,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: 'white',
+    borderTopRightRadius: 25,
+    borderTopLeftRadius: 25,
   },
   contentContainer: {
     flex: 1,
-    width: width - 40,
+    width: width,
+    paddingHorizontal: 14,
   },
   title: {
     fontSize: 28,
     fontWeight: "700",
+    marginTop: 10,
   },
   statsContainer: {
     flexDirection: "row",
